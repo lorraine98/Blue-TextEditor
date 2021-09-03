@@ -1,9 +1,11 @@
-export default function PostList({ $target, initialState, onClick }) {
-    const $postList = document.createElement('div')
+import { request } from "../utils/api.js"
+
+export default function PostList({ $target, initialState }) {
+    const $navContainer = document.createElement('div')
+    $navContainer.className = 'nav-container'
+    $target.appendChild($navContainer)
 
     this.state = initialState
-
-    $target.appendChild($postList)
 
     this.setState = nextState => {
         this.state = nextState
@@ -11,10 +13,17 @@ export default function PostList({ $target, initialState, onClick }) {
     }
 
     this.render = () => {
-        renderPosts($target, this.state)
+        renderPosts($navContainer, this.state)
     }
 
     this.render()
+
+    const fetchPosts = async () => {
+        const posts = await request('/documents')
+        // $postList.setState(posts)
+    }
+
+    fetchPosts()
 }
 
 function renderPosts(parentPost, currentPost) {

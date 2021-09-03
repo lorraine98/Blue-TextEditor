@@ -1,4 +1,5 @@
-import PostList from "./commons/Nav.js"
+import Nav from "./commons/Nav.js"
+import LandingPage from "./components/LandingPage.js"
 
 const DUMMY_DATA = [
     {
@@ -26,8 +27,12 @@ const DUMMY_DATA = [
 ]
 
 export default function App({ $target }) {
-    new PostList({
+    new Nav({
         $target,
         initialState: DUMMY_DATA
+    })
+
+    new LandingPage({
+        $target
     })
 }
