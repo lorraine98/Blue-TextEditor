@@ -1,19 +1,41 @@
-// import LinkButton from "../commons/LinkButton"
+import { initRouter, push } from "../utils/router.js"
 
 export default function LandingPage({ $target }) {
-    const $landingPage = document.createElement('div')
+    this.setState = nextState => {
+        this.state = { ...nextState }
+        this.render()
+    }
 
-    // new LinkButton({
-    //     $target: $landingPage, initialState: {
-    //         text: 'New Post',
-    //         link: '/'
-    //     }
-    // })
-    $landingPage.innerHTML = `
-        <h1>WELCOME!<h1>
-        <button>new post</button>
-        <p>←Select document</p>
-    `
+    const onClick = (e) => {
+        if (e.target.matches(".new-post-btn")) {
+            console.log("onclick new post")
+            push('new-post')
+        }
+    }
 
-    $target.appendChild($landingPage)
+    $target.addEventListener('click', onClick);
+
+    this.render = () => {
+        $target.innerHTML = `
+            <div class="landingpage">
+                <h1>WELCOME!<h1>
+                <button class="new-post-btn">new post</button>
+                <p>←Select document</p>
+            </div>
+        `;
+
+    }
+
+    this.route = () => {
+        const { pathname } = window.location;
+        const splitedPath = pathname.split('/');
+        if (!isArray(splitedPath) || !splitedPath.every((path) => path === '')) {
+            return;
+        }
+        $target.innerHTML = ``
+        this.setState();
+    };
+
+    this.route();
+    initRouter(() => this.route());
 }

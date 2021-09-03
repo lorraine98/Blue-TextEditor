@@ -1,9 +1,9 @@
+import { initRouter } from "../utils/router.js"
 export default function Editor({ $target, initialState }) {
-    const $editor = document.createElement('textarea')
 
     this.state = initialState
 
-    $target.appendChild($editor)
+
 
     this.setState = nextState => {
         this.state = nextState
@@ -11,7 +11,20 @@ export default function Editor({ $target, initialState }) {
     }
 
     this.render = () => {
-
+        const $editor = document.createElement('textarea')
+        $target.appendChild($editor)
     }
-    this.render()
+
+    this.route = () => {
+        const { pathname } = window.location;
+        const splitedPath = pathname.split('/');
+        if (!splitedPath.includes('new-post')) {
+            return;
+        }
+        $target.innerHTML = ``
+        this.setState()
+    };
+
+    this.route();
+    initRouter(() => this.route());
 }

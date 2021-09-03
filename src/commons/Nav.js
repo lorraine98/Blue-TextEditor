@@ -5,6 +5,10 @@ export default function PostList({ $target, initialState }) {
     $navContainer.className = 'nav-container'
     $target.appendChild($navContainer)
 
+    const navTitle = document.createElement('span')
+    navTitle.innerHTML = `<h1>Blue Text Editor</h1>`
+    $navContainer.appendChild(navTitle)
+
     this.state = initialState
 
     this.setState = nextState => {

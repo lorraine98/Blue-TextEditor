@@ -1,5 +1,5 @@
 import Nav from "./commons/Nav.js"
-import LandingPage from "./components/LandingPage.js"
+import Page from "./components/Page.js"
 
 const DUMMY_DATA = [
     {
@@ -32,7 +32,6 @@ export default function App({ $target }) {
         initialState: DUMMY_DATA
     })
 
-    new LandingPage({
-        $target
-    })
+    new Page({ $target, initialState: {} })
+
 }
