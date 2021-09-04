@@ -1,7 +1,7 @@
 import Nav from "./commons/Nav.js"
 import Editor from "./components/Editor.js"
 import LandingPage from "./components/LandingPage.js"
-import { initRouter, push } from "./utils/router.js"
+import { initRouter } from "./utils/router.js"
 
 const DUMMY_DATA = [
     {

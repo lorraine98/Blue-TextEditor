@@ -5,10 +5,16 @@
   width: 100%;
   margin: 20px;
 }
+.editor-container {
+  display: flex;
+  flex-direction: column;
+}
 .editor-title {
+  font-size: 2em;
+  font-weight: 600;
+  border: none;
   margin-bottom: 10px;
 }
 .editor-content {
-  width: 800px;
   height: 500px;
 }

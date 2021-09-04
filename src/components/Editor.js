@@ -9,8 +9,10 @@ export default function Editor({ $target, initialState }) {
 
     this.render = () => {
         $target.innerHTML = `
-            <h1 class="editor-title">제목입니다</h1>
-            <textarea class="editor-content"></textarea>
+            <div class="editor-container">
+               <input class="editor-title" placeholder="Heading.."/>
+               <textarea class="editor-content"></textarea>
+            </div>
         `
     }
     this.render()
