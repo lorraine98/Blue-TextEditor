@@ -1,5 +1,7 @@
 import Nav from "./commons/Nav.js"
-import Page from "./components/Page.js"
+import Editor from "./components/Editor.js"
+import LandingPage from "./components/LandingPage.js"
+import { initRouter, push } from "./utils/router.js"
 
 const DUMMY_DATA = [
     {
@@ -32,6 +34,43 @@ export default function App({ $target }) {
         initialState: DUMMY_DATA
     })
 
-    new Page({ $target, initialState: {} })
+    const $page = document.createElement('div')
+    $page.className = "page"
+    $target.appendChild($page)
 
+    const editor = new Editor({
+        $target: $page,
+        initialState: []
+    })
+
+    const landingPage = new LandingPage({
+        $target: $page
+    })
+
+    this.route = () => {
+        const { pathname } = window.location;
+        // await fetchList()
+        if (pathname === '/') {
+            landingPage.setState()
+        }
+        else if (pathname.includes('/new-post')) {
+            editor.setState()
+        }
+    };
+
+    window.addEventListener('popstate', () => {
+        this.route()
+    })
+
+    // const fetchList = async () => {
+    //     const docs = await request(`/documents`, {
+    //         method: 'GET',
+    //     });
+    //     if (docs) {
+    //         docList.setState(docs);
+    //     }
+    // };
+
+    this.route();
+    initRouter(() => this.route());
 }
