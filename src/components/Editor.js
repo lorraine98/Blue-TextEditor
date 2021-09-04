@@ -11,8 +11,10 @@ export default function Editor({ $target, initialState }) {
     }
 
     this.render = () => {
-        const $editor = document.createElement('textarea')
-        $target.appendChild($editor)
+        $target.innerHTML = `
+            <h1 class="editor-title">제목입니다</h1>
+            <textarea class="editor-content"></textarea>
+        `
     }
 
     this.route = () => {

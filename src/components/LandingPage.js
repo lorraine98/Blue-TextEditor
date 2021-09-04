@@ -29,7 +29,7 @@ export default function LandingPage({ $target }) {
     this.route = () => {
         const { pathname } = window.location;
         const splitedPath = pathname.split('/');
-        if (!isArray(splitedPath) || !splitedPath.every((path) => path === '')) {
+        if (!Array.isArray(splitedPath) || !splitedPath.every((path) => path === '')) {
             return;
         }
         $target.innerHTML = ``

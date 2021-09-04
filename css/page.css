@@ -1,0 +1,14 @@
+#app {
+  display: flex;
+}
+.page {
+  width: 100%;
+  margin: 20px;
+}
+.editor-title {
+  margin-bottom: 10px;
+}
+.editor-content {
+  width: 800px;
+  height: 500px;
+}
