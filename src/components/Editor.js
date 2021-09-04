@@ -9,10 +9,15 @@ export default function Editor({ $target, initialState }) {
 
     this.render = () => {
         $target.innerHTML = `
-            <div class="editor-container">
+        <div class="editor-container">
+            <div>
                <input class="editor-title" placeholder="Heading.."/>
                <textarea class="editor-content"></textarea>
             </div>
+            <div>
+                <input type="file"/>
+            </div>
+        </div>
         `
     }
     this.render()
