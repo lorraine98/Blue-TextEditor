@@ -49,14 +49,19 @@ export default function App({ $target }) {
         $target: $page
     })
 
+    let timer = null
+
     const editor = new Editor({
         $target: $page,
         initialState: post,
         onEditing: (post) => {
-            setItem(TEMP_POST_SAVE_KEY, {
-                ...post,
-                tempSaveData: new Date()
-            })
+            clearTimeout(timer)
+            timer = setTimeout(() => {
+                setItem(TEMP_POST_SAVE_KEY, {
+                    ...post,
+                    tempSaveData: new Date()
+                })
+            }, 500)
         }
     })
 

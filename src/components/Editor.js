@@ -33,6 +33,7 @@ export default function Editor({ $target, onEditing, initialState = {
         const name = target.getAttribute('name')
 
         if (this.state[name] !== undefined) {
+            console.log([name], target.value)
             const nextState = {
                 ...this.state,
                 [name]: target.value
