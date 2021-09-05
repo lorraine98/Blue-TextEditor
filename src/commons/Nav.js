@@ -1,6 +1,6 @@
 import { request } from "../utils/api.js"
 
-export default function PostList({ $target, initialState }) {
+export default function Nav({ $target, initialState }) {
     const $navContainer = document.createElement('div')
     $navContainer.className = 'nav-container'
     $target.appendChild($navContainer)
@@ -24,7 +24,7 @@ export default function PostList({ $target, initialState }) {
 
     const fetchPosts = async () => {
         const posts = await request('/documents')
-        // $postList.setState(posts)
+        this.setState(posts)
     }
 
     fetchPosts()

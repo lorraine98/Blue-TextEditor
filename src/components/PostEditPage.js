@@ -3,13 +3,6 @@ import { getItem, setItem } from "../utils/storage.js"
 
 export default function PostEditPage({ $target, initialState }) {
 
-    this.sttate = initialState
-
-    this.setState = nextState => {
-        this.state = { ...this.state, ...nextState }
-        this.render()
-    }
-
     const TEMP_POST_SAVE_KEY = 'temp-post'
     const post = getItem(TEMP_POST_SAVE_KEY, {
         title: '',
@@ -33,6 +26,13 @@ export default function PostEditPage({ $target, initialState }) {
             }, 1000)
         }
     })
+
+    this.state = initialState
+
+    this.setState = nextState => {
+        this.state = { ...this.state, ...nextState }
+        this.render()
+    }
 
     this.render = () => {
         editor.render()
