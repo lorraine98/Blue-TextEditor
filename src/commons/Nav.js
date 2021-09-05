@@ -18,31 +18,38 @@ export default function Nav({ $target, initialState }) {
     }
 
     this.render = () => {
-        renderPosts($navContainer, this.state)
+        renderDocs($navContainer, this.state)
     }
 
     this.render()
 
-    const fetchPosts = async () => {
-        const posts = await request('/documents')
-        this.setState(posts)
+    const fetchDocs = async () => {
+        const docs = await request('/documents')
+        this.setState(docs)
     }
 
-    fetchPosts()
-    $navContainer.addEventListener('click', e => push(`/documents/${e.target.dataset.id}`))
+    fetchDocs()
+    $navContainer.addEventListener('click', e => {
+        const { id } = e.target.dataset
+        if (!id) {
+            push(`/`)
+            return
+        }
+        push(`/documents/${id}`)
+    })
 }
 
-function renderPosts(parentPost, currentPost, depth = 0) {
-    if (!currentPost) return;
+function renderDocs(parentDoc, currentDoc, depth = 0) {
+    if (!currentDoc) return;
 
-    currentPost.forEach(post => {
-        const $postElement = document.createElement('div')
-        $postElement.style.paddingLeft = `${depth * 8}px`;
-        $postElement.classList.add("nav-document");
-        const { id, title, documents: nextPost } = post
-        $postElement.dataset.id = id
-        $postElement.textContent = title
-        parentPost.appendChild($postElement)
-        renderPosts($postElement, nextPost, depth + 1)
+    currentDoc.forEach(doc => {
+        const $docElement = document.createElement('div')
+        $docElement.style.paddingLeft = `${depth * 8}px`;
+        $docElement.classList.add("nav-document");
+        const { id, title, documents: nextDoc } = doc
+        $docElement.dataset.id = id
+        $docElement.textContent = title
+        parentDoc.appendChild($docElement)
+        renderDocs($docElement, nextDoc, depth + 1)
     })
 }

@@ -2,10 +2,10 @@ import Editor from "./Editor.js"
 import { getItem, setItem } from "../utils/storage.js"
 import { request } from "../utils/api.js"
 
-export default function PostEditPage({ $target, initialState }) {
+export default function DocEditPage({ $target, initialState }) {
 
     this.state = initialState
-    const getPostSaveKey = () => `temp-post-${this.state.docId}`
+    const getDocSaveKey = () => `temp-doc-${this.state.docId}`
 
     this.setState = async nextState => {
         const prevDocId = this.state.docId;
@@ -17,7 +17,7 @@ export default function PostEditPage({ $target, initialState }) {
         this.render()
     }
 
-    const post = getItem(getPostSaveKey(), {
+    const doc = getItem(getDocSaveKey(), {
         title: '',
         content: ''
     })
@@ -26,14 +26,14 @@ export default function PostEditPage({ $target, initialState }) {
 
     const editor = new Editor({
         $target,
-        initialState: post,
-        onEditing: (post) => {
+        initialState: doc,
+        onEditing: (doc) => {
             if (timer !== null) {
                 clearTimeout(timer)
             }
             timer = setTimeout(() => {
-                setItem(getPostSaveKey(), {
-                    ...post,
+                setItem(getDocSaveKey(), {
+                    ...doc,
                     tempSaveData: new Date()
                 })
             }, 1000)
@@ -50,9 +50,9 @@ export default function PostEditPage({ $target, initialState }) {
         const { docId } = this.state
 
         if (docId !== 'new') {
-            const post = await request(`/documents/${docId}`)
+            const doc = await request(`/documents/${docId}`)
 
-            this.setState({ ...this.state, post })
+            this.setState({ ...this.state, post: doc })
         }
     }
 }

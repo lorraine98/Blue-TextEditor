@@ -7,8 +7,11 @@ export default function Editor({ $target, onEditing, initialState = {
 
     this.setState = nextState => {
         this.state = { ...this.state, ...nextState }
-        $target.querySelector('[name=title]').value = this.state.title
-        $target.querySelector('[name=content]').value = this.state.content
+        if ($target.querySelector('[name=title]') && $target.querySelector('[name=content]')) {
+            $target.querySelector('[name=title]').value = this.state.title
+            $target.querySelector('[name=content]').value = this.state.content
+            return
+        }
         this.render()
     }
 
@@ -39,13 +42,9 @@ export default function Editor({ $target, onEditing, initialState = {
                 ...this.state,
                 [name]: target.value
             }
-            console.log(nextState)
             this.setState(nextState)
             onEditing(this.state)
         }
-        // else if (this.state[content]) {
-        //     console.log(target)
-        // }
     }
 
     $target.addEventListener('keyup', e => this.onkeyup(e))
