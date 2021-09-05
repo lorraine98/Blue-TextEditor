@@ -1,8 +1,7 @@
 import Nav from "./commons/Nav.js"
-import Editor from "./components/Editor.js"
 import LandingPage from "./components/LandingPage.js"
+import PostEditPage from "./components/PostEditPage.js"
 import { initRouter } from "./utils/router.js"
-import { getItem, setItem } from "./utils/storage.js"
 
 const DUMMY_DATA = [
     {
@@ -32,37 +31,19 @@ const DUMMY_DATA = [
 export default function App({ $target }) {
     new Nav({
         $target,
-        initialState: DUMMY_DATA
+        initialState: []
     })
 
     const $page = document.createElement('div')
     $page.className = "page"
     $target.appendChild($page)
 
-    const TEMP_POST_SAVE_KEY = 'temp-post'
-    const post = getItem(TEMP_POST_SAVE_KEY, {
-        title: '',
-        content: ''
-    })
-
     const landingPage = new LandingPage({
         $target: $page
     })
 
-    let timer = null
-
-    const editor = new Editor({
-        $target: $page,
-        initialState: post,
-        onEditing: (post) => {
-            clearTimeout(timer)
-            timer = setTimeout(() => {
-                setItem(TEMP_POST_SAVE_KEY, {
-                    ...post,
-                    tempSaveData: new Date()
-                })
-            }, 500)
-        }
+    const postEditPage = new PostEditPage({
+        $target: $page
     })
 
     this.route = () => {
@@ -72,7 +53,7 @@ export default function App({ $target }) {
             landingPage.setState()
         }
         else if (pathname.includes('/new-post')) {
-            editor.setState()
+            postEditPage.setState()
         }
     };
 
