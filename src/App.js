@@ -2,6 +2,7 @@ import Nav from "./commons/Nav.js"
 import Editor from "./components/Editor.js"
 import LandingPage from "./components/LandingPage.js"
 import { initRouter } from "./utils/router.js"
+import { getItem, setItem } from "./utils/storage.js"
 
 const DUMMY_DATA = [
     {
@@ -38,13 +39,25 @@ export default function App({ $target }) {
     $page.className = "page"
     $target.appendChild($page)
 
-    const editor = new Editor({
-        $target: $page,
-        initialState: []
+    const TEMP_POST_SAVE_KEY = 'temp-post'
+    const post = getItem(TEMP_POST_SAVE_KEY, {
+        title: '',
+        content: ''
     })
 
     const landingPage = new LandingPage({
         $target: $page
+    })
+
+    const editor = new Editor({
+        $target: $page,
+        initialState: post,
+        onEditing: (post) => {
+            setItem(TEMP_POST_SAVE_KEY, {
+                ...post,
+                tempSaveData: new Date()
+            })
+        }
     })
 
     this.route = () => {
