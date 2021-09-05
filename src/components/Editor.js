@@ -7,6 +7,8 @@ export default function Editor({ $target, onEditing, initialState = {
 
     this.setState = nextState => {
         this.state = { ...this.state, ...nextState }
+        $target.querySelector('[name=title]').value = this.state.title
+        $target.querySelector('[name=content]').value = this.state.content
         this.render()
     }
 
@@ -37,6 +39,7 @@ export default function Editor({ $target, onEditing, initialState = {
                 ...this.state,
                 [name]: target.value
             }
+            console.log(nextState)
             this.setState(nextState)
             onEditing(this.state)
         }

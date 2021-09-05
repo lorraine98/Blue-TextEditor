@@ -28,6 +28,20 @@ const DUMMY_DATA = [
     }
 ]
 
+const getDocId = () => {
+    try {
+        const { pathname } = window.location;
+        if (!pathname.includes('/documents/')) {
+            throw new Error("not a document path")
+        }
+        const [, , docId] = pathname.split('/');
+        return docId;
+    } catch (error) {
+        console.log(error);
+        return 'new';
+    }
+}
+
 export default function App({ $target }) {
     new Nav({
         $target,
@@ -43,7 +57,8 @@ export default function App({ $target }) {
     })
 
     const postEditPage = new PostEditPage({
-        $target: $page
+        $target: $page,
+        initialState: { docId: getDocId() }
     })
 
     this.route = () => {
@@ -52,8 +67,14 @@ export default function App({ $target }) {
         if (pathname === '/') {
             landingPage.setState()
         }
-        else if (pathname.includes('/new-post')) {
-            postEditPage.setState()
+        else if (pathname.includes('/new')) {
+            postEditPage.setState({ docId: Date.now() })
+        }
+        else if (pathname.includes('/documents/')) {
+            postEditPage.setState({ docId: getDocId() })
+        }
+        else {
+            alert('404 Not Found')
         }
     };
 

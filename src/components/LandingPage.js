@@ -8,7 +8,7 @@ export default function LandingPage({ $target }) {
 
     const onClick = (e) => {
         if (e.target.matches(".new-post-btn")) {
-            push('new-post')
+            push('new')
         }
     }
 

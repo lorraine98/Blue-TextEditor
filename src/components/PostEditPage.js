@@ -1,10 +1,23 @@
 import Editor from "./Editor.js"
 import { getItem, setItem } from "../utils/storage.js"
+import { request } from "../utils/api.js"
 
 export default function PostEditPage({ $target, initialState }) {
 
-    const TEMP_POST_SAVE_KEY = 'temp-post'
-    const post = getItem(TEMP_POST_SAVE_KEY, {
+    this.state = initialState
+    const getPostSaveKey = () => `temp-post-${this.state.docId}`
+
+    this.setState = async nextState => {
+        const prevDocId = this.state.docId;
+        this.state = { ...this.state, ...nextState }
+        if (prevDocId !== nextState.docId) {
+            await fetchPost()
+            return
+        }
+        this.render()
+    }
+
+    const post = getItem(getPostSaveKey(), {
         title: '',
         content: ''
     })
@@ -19,7 +32,7 @@ export default function PostEditPage({ $target, initialState }) {
                 clearTimeout(timer)
             }
             timer = setTimeout(() => {
-                setItem(TEMP_POST_SAVE_KEY, {
+                setItem(getPostSaveKey(), {
                     ...post,
                     tempSaveData: new Date()
                 })
@@ -27,15 +40,19 @@ export default function PostEditPage({ $target, initialState }) {
         }
     })
 
-    this.state = initialState
-
-    this.setState = nextState => {
-        this.state = { ...this.state, ...nextState }
-        this.render()
-    }
 
     this.render = () => {
-        editor.render()
+        editor.setState({})
     }
     this.render()
+
+    const fetchPost = async () => {
+        const { docId } = this.state
+
+        if (docId !== 'new') {
+            const post = await request(`/documents/${docId}`)
+
+            this.setState({ ...this.state, post })
+        }
+    }
 }

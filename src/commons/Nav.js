@@ -1,4 +1,5 @@
 import { request } from "../utils/api.js"
+import { push } from "../utils/router.js"
 
 export default function Nav({ $target, initialState }) {
     const $navContainer = document.createElement('div')
@@ -28,17 +29,20 @@ export default function Nav({ $target, initialState }) {
     }
 
     fetchPosts()
+    $navContainer.addEventListener('click', e => push(`/documents/${e.target.dataset.id}`))
 }
 
-function renderPosts(parentPost, currentPost) {
+function renderPosts(parentPost, currentPost, depth = 0) {
     if (!currentPost) return;
 
-    currentPost.map(post => {
+    currentPost.forEach(post => {
         const $postElement = document.createElement('div')
+        $postElement.style.paddingLeft = `${depth * 8}px`;
+        $postElement.classList.add("nav-document");
         const { id, title, documents: nextPost } = post
         $postElement.dataset.id = id
         $postElement.textContent = title
         parentPost.appendChild($postElement)
-        renderPosts($postElement, nextPost)
+        renderPosts($postElement, nextPost, depth + 1)
     })
 }
