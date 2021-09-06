@@ -18,6 +18,21 @@ export const request = async (url, options = {}) => {
     }
 }
 
+export const fetchDocument = async (docId) => {
+    return request(`/documents/${docId}`)
+}
+
+export const postDocument = async (parentId) => {
+    const doc = {
+        title: 'new',
+        parent: parentId
+    }
+    return request("/documents", {
+        method: "POST",
+        body: JSON.stringify(doc),
+    });
+}
+
 export const getDocIdByCurUrl = () => {
     try {
         const { pathname } = window.location;

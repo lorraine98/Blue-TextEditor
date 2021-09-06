@@ -1,13 +1,15 @@
 import Nav from "./commons/Nav.js"
 import LandingPage from "./components/LandingPage.js"
 import DocEditPage from "./components/DocEditPage.js"
-import { initRouter } from "./utils/router.js"
+import { initRouter, push } from "./utils/router.js"
+import { getDocIdByCurUrl, postDocument } from "./utils/api.js"
 
 
 export default function App({ $target }) {
     new Nav({
         $target,
-        initialState: []
+        initialState: [],
+        postNewDocument: (parentId) => this.postNewDocument(parentId)
     })
 
     const $doc = document.createElement('div')
@@ -15,13 +17,19 @@ export default function App({ $target }) {
     $target.appendChild($doc)
 
     const landingPage = new LandingPage({
-        $target: $doc
+        $target: $doc,
+        postNewDocument: () => this.postNewDocument(null)
     })
 
     const docEditPage = new DocEditPage({
         $target: $doc,
         initialState: { docId: getDocIdByCurUrl() }
     })
+
+    this.postNewDocument = async (parentId) => {
+        const { id, title } = await postDocument(parentId);
+        push(`/documents/${id}`)
+    }
 
     this.route = () => {
         const { pathname } = window.location;

@@ -1,6 +1,5 @@
 import Editor from "./Editor.js"
 import { getItem, setItem } from "../utils/storage.js"
-import { request } from "../utils/api.js"
 
 export default function DocEditPage({ $target, initialState }) {
 
@@ -11,16 +10,15 @@ export default function DocEditPage({ $target, initialState }) {
         this.validationState(nextState);
         const prevDocId = this.state.docId;
         this.state = { ...this.state, ...nextState }
-        if (prevDocId !== nextState.docId) {
-            await fetchPost()
-            return
+        if (prevDocId === nextState?.docId) {
+            return;
         }
         this.render()
     }
 
     this.validationState = state => {
-        if (typeof state?.docId !== "number") {
-            throw new Error("docId must be number")
+        if (state?.docId && (typeof state.docId !== "string")) {
+            throw new Error(`docId must be string::${typeof state?.docId}`)
         }
     }
 
@@ -51,15 +49,6 @@ export default function DocEditPage({ $target, initialState }) {
     this.render = () => {
         editor.setState({})
     }
+
     this.render()
-
-    const fetchPost = async () => {
-        const { docId } = this.state
-
-        if (docId !== 'new') {
-            const doc = await request(`/documents/${docId}`)
-
-            this.setState({ ...this.state, post: doc })
-        }
-    }
 }

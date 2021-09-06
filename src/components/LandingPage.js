@@ -1,10 +1,10 @@
 import { push } from "../utils/router.js"
 
-export default function LandingPage({ $target }) {
+export default function LandingPage({ $target, postNewDocument }) {
 
     const onClick = (e) => {
         if (e.target.matches(".new-post-btn")) {
-            push('new')
+            postNewDocument()
         }
     }
 
