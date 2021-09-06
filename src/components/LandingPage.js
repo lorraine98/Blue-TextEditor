@@ -1,5 +1,3 @@
-import { push } from "../utils/router.js"
-
 export default function LandingPage({ $target, postNewDocument }) {
 
     const onClick = (e) => {

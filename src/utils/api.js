@@ -35,11 +35,11 @@ export const postDocument = async (parentId) => {
 
 export const getDocIdByCurUrl = () => {
     try {
-        const { pathname } = window.location;
-        const [, , docId] = pathname.split('/');
-        return docId;
+        const { pathname } = window.location
+        const [, , docId] = pathname.split('/')
+        return docId
     } catch (error) {
-        console.log(error);
-        return 'new';
+        console.log(error)
+        return 'new'
     }
 }

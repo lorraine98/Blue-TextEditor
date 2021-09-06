@@ -7,7 +7,7 @@ export default function DocEditPage({ $target, initialState }) {
     const getDocSaveKey = () => `temp-doc-${this.state.docId}`
 
     this.setState = async nextState => {
-        this.validationState(nextState);
+        this.validateState(nextState);
         const prevDocId = this.state.docId;
         this.state = { ...this.state, ...nextState }
         if (prevDocId === nextState?.docId) {
@@ -16,7 +16,7 @@ export default function DocEditPage({ $target, initialState }) {
         this.render()
     }
 
-    this.validationState = state => {
+    this.validateState = state => {
         if (state?.docId && (typeof state.docId !== "string")) {
             throw new Error(`docId must be string::${typeof state?.docId}`)
         }

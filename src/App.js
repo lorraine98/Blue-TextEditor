@@ -2,14 +2,15 @@ import Nav from "./commons/Nav.js"
 import LandingPage from "./components/LandingPage.js"
 import DocEditPage from "./components/DocEditPage.js"
 import { initRouter, push } from "./utils/router.js"
-import { getDocIdByCurUrl, postDocument } from "./utils/api.js"
+import { request, getDocIdByCurUrl, postDocument } from "./utils/api.js"
 
 
 export default function App({ $target }) {
-    new Nav({
+    const nav = new Nav({
         $target,
-        initialState: [],
-        postNewDocument: (parentId) => this.postNewDocument(parentId)
+        initialState: { documents: [] },
+        postNewDocument: (parentId) => this.postNewDocument(parentId),
+        deleteDocument: (id) => this.deleteDocument(id)
     })
 
     const $doc = document.createElement('div')
@@ -27,18 +28,23 @@ export default function App({ $target }) {
     })
 
     this.postNewDocument = async (parentId) => {
-        const { id, title } = await postDocument(parentId);
-        push(`/documents/${id}`)
+        const document = await postDocument(parentId);
+        document.documents = document.documents ?? [];
+        push(`/documents/${document.id}`)
+        return document;
+    }
+
+    this.deleteDocument = async (id) => {
+        await request(`/documents/${id}`, {
+            method: "DELETE",
+        });
+        push(`/`)
     }
 
     this.route = () => {
         const { pathname } = window.location;
         if (pathname === '/') {
             landingPage.render()
-        }
-        //TODO:change
-        else if (pathname.includes('/new')) {
-            docEditPage.setState()
         }
         else if (pathname.includes('/documents/')) {
             docEditPage.setState({ docId: getDocIdByCurUrl() })
