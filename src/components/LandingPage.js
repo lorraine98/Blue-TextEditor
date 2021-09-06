@@ -1,10 +1,6 @@
 import { push } from "../utils/router.js"
 
 export default function LandingPage({ $target }) {
-    this.setState = nextState => {
-        this.state = { ...nextState }
-        this.render()
-    }
 
     const onClick = (e) => {
         if (e.target.matches(".new-post-btn")) {

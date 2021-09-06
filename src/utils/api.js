@@ -5,7 +5,7 @@ export const request = async (url, options = {}) => {
         const res = await fetch(`${API_END_POINT}${url}`, {
             ...options,
             headers: {
-                'x-username': 'roto'
+                'x-username': 'hyosung'
             }
         })
 
@@ -15,5 +15,16 @@ export const request = async (url, options = {}) => {
         throw new Error('API ERROR')
     } catch (error) {
         alert(error.message)
+    }
+}
+
+export const getDocIdByCurUrl = () => {
+    try {
+        const { pathname } = window.location;
+        const [, , docId] = pathname.split('/');
+        return docId;
+    } catch (error) {
+        console.log(error);
+        return 'new';
     }
 }

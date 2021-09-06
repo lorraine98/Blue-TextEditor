@@ -3,16 +3,6 @@ import LandingPage from "./components/LandingPage.js"
 import DocEditPage from "./components/DocEditPage.js"
 import { initRouter } from "./utils/router.js"
 
-const getDocId = () => {
-    try {
-        const { pathname } = window.location;
-        const [, , docId] = pathname.split('/');
-        return docId;
-    } catch (error) {
-        console.log(error);
-        return 'new';
-    }
-}
 
 export default function App({ $target }) {
     new Nav({
@@ -30,19 +20,20 @@ export default function App({ $target }) {
 
     const docEditPage = new DocEditPage({
         $target: $doc,
-        initialState: { docId: getDocId() }
+        initialState: { docId: getDocIdByCurUrl() }
     })
 
     this.route = () => {
         const { pathname } = window.location;
         if (pathname === '/') {
-            landingPage.setState()
+            landingPage.render()
         }
+        //TODO:change
         else if (pathname.includes('/new')) {
-            docEditPage.setState({ docId: Date.now() })
+            docEditPage.setState()
         }
         else if (pathname.includes('/documents/')) {
-            docEditPage.setState({ docId: getDocId() })
+            docEditPage.setState({ docId: getDocIdByCurUrl() })
         }
         else {
             alert('404 Not Found')

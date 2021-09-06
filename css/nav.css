@@ -1,5 +1,6 @@
 .nav-container {
   width: 250px;
+  min-height: 100vh;
   background-color: var(--skyblue);
   padding: 20px;
 }

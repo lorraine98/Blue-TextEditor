@@ -13,12 +13,20 @@ export default function Nav({ $target, initialState }) {
     this.state = initialState
 
     this.setState = nextState => {
+        this.validationState(nextState);
         this.state = nextState
         this.render()
     }
 
+    this.validationState = state => {
+        if (!Array.isArray(state)) {
+            throw new Error("Type must be Array")
+        }
+    }
+
     this.render = () => {
         renderDocs($navContainer, this.state)
+        // $navContainer.innerHTML = ` <button class="new-post-btn">new post</button>`
     }
 
     this.render()

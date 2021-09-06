@@ -6,13 +6,25 @@ export default function Editor({ $target, onEditing, initialState = {
     this.state = initialState
 
     this.setState = nextState => {
+        this.validationState(nextState);
         this.state = { ...this.state, ...nextState }
-        if ($target.querySelector('[name=title]') && $target.querySelector('[name=content]')) {
-            $target.querySelector('[name=title]').value = this.state.title
-            $target.querySelector('[name=content]').value = this.state.content
+        const $title = $target.querySelector('[name=title]')
+        const $content = $target.querySelector('[name=content]')
+        if ($title && $content) {
+            $title.value = this.state.title
+            $content.value = this.state.content
             return
         }
         this.render()
+    }
+
+    this.validationState = state => {
+        if (state?.title && typeof state.title !== 'string') {
+            throw new Error("title must be string")
+        }
+        if (state?.content && typeof state.content !== 'string') {
+            throw new Error("content must be string")
+        }
     }
 
     this.render = () => {
