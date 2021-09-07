@@ -18,7 +18,7 @@ export default function Nav({ $target, initialState, postNewDocument, deleteDocu
 
     const onClick = async (e) => {
         const $doc = e.target.closest('.nav-document');
-        const $parentDoc = $doc.parentNode;
+        const $parentDoc = $doc?.parentNode;
         const id = +$doc?.dataset?.id;
         const parentId = +$parentDoc?.dataset?.id;
 

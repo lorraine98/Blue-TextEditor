@@ -7,7 +7,6 @@ export const request = async (url, options = {}) => {
             headers: {
                 'Content-Type': 'application/json',
                 'x-username': 'hyosung'
-                //'x-username': 'roto'
             }
         })
 
@@ -44,4 +43,15 @@ export const getDocIdByCurUrl = () => {
         console.log(error)
         return 'new'
     }
+}
+
+export const updateDocument = (id, title, content) => {
+    const doc = {
+        title,
+        content
+    }
+    return request(`/documents/${id}`, {
+        method: "PUT",
+        body: JSON.stringify({ ...doc }),
+    });
 }

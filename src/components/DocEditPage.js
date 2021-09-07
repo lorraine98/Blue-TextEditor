@@ -1,10 +1,9 @@
 import Editor from "./Editor.js"
-import { getItem, setItem } from "../utils/storage.js"
+import { updateDocument } from "../utils/api.js";
 
 export default function DocEditPage({ $target, initialState }) {
 
     this.state = initialState
-    const getDocSaveKey = () => `temp-doc-${this.state.docId}`
 
     this.setState = async nextState => {
         this.validateState(nextState);
@@ -22,26 +21,14 @@ export default function DocEditPage({ $target, initialState }) {
         }
     }
 
-    const doc = getItem(getDocSaveKey(), {
-        title: '',
-        content: ''
-    })
-
-    let timer = null
 
     const editor = new Editor({
         $target,
-        initialState: doc,
+        initialState: {
+            title: '', content: ''
+        },
         onEditing: (doc) => {
-            if (timer !== null) {
-                clearTimeout(timer)
-            }
-            timer = setTimeout(() => {
-                setItem(getDocSaveKey(), {
-                    ...doc,
-                    tempSaveData: new Date()
-                })
-            }, 1000)
+            
         }
     })
 

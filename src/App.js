@@ -1,8 +1,8 @@
 import Nav from "./commons/Nav.js"
 import LandingPage from "./components/LandingPage.js"
-import DocEditPage from "./components/DocEditPage.js"
+import Editor from "./components/Editor.js"
 import { initRouter, push } from "./utils/router.js"
-import { request, getDocIdByCurUrl, postDocument } from "./utils/api.js"
+import { request, getDocIdByCurUrl, postDocument, fetchDocument } from "./utils/api.js"
 
 
 export default function App({ $target }) {
@@ -21,9 +21,8 @@ export default function App({ $target }) {
         $target: $doc,
     })
 
-    const docEditPage = new DocEditPage({
-        $target: $doc,
-        initialState: { docId: getDocIdByCurUrl() }
+    const editor = new Editor({
+        $target: $doc
     })
 
     this.postNewDocument = async (parentId) => {
@@ -40,13 +39,16 @@ export default function App({ $target }) {
         push(`/`)
     }
 
-    this.route = () => {
+    this.route = async () => {
         const { pathname } = window.location;
         if (pathname === '/') {
             landingPage.render()
         }
         else if (pathname.includes('/documents/')) {
-            docEditPage.setState({ docId: getDocIdByCurUrl() })
+            const docId = +getDocIdByCurUrl()
+            const document = await fetchDocument(docId)
+            const { title, content } = document
+            editor.setState({ title, content, docId })
         }
         else {
             alert('404 Not Found')
