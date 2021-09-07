@@ -19,7 +19,6 @@ export default function App({ $target }) {
 
     const landingPage = new LandingPage({
         $target: $doc,
-        postNewDocument: () => this.postNewDocument(null)
     })
 
     const docEditPage = new DocEditPage({
@@ -29,6 +28,7 @@ export default function App({ $target }) {
 
     this.postNewDocument = async (parentId) => {
         const document = await postDocument(parentId);
+        document.title = "Untitled"
         document.documents = document.documents ?? [];
         push(`/documents/${document.id}`)
         return document;

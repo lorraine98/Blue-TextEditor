@@ -1,12 +1,4 @@
-export default function LandingPage({ $target, postNewDocument }) {
-
-    const onClick = (e) => {
-        if (e.target.matches(".new-post-btn")) {
-            postNewDocument()
-        }
-    }
-
-    $target.addEventListener('click', onClick);
+export default function LandingPage({ $target }) {
 
     this.render = () => {
         $target.innerHTML = `

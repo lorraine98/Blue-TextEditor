@@ -8,7 +8,7 @@ export default function Nav({ $target, initialState, postNewDocument, deleteDocu
 
     $navContainer.innerHTML = `
         <div>
-            <h1 class="logo">Blue Text Editor</h1>
+            <h1 class="logo">Text Editor</h1>
             <button class="new-post-btn">new post</button>
         </div>
     `
@@ -22,13 +22,19 @@ export default function Nav({ $target, initialState, postNewDocument, deleteDocu
             const document = await postNewDocument()
             this.setState({ documents: [...this.state.documents, document] });
         }
+        else if (e.target.matches(".add-btn")) {
+            console.log(id)
+            const document = await postNewDocument(id)
+            this.setState({ documents: [...this.state.documents, document] });
+        }
         else if (e.target.matches(".logo")) {
             push(`/`)
         }
         else if (e.target.matches(".nav-document")) {
             push(`/documents/${id}`)
+
         }
-        else if (e.target.matches(".delete-post-btn")) {
+        else if (e.target.matches(".delete-btn")) {
             this.setState({ documents: this.state.documents.filter(doc => doc.id !== +id) });
             deleteDocument(id)
         }
@@ -74,6 +80,7 @@ export default function Nav({ $target, initialState, postNewDocument, deleteDocu
 
     const fetchDocs = async () => {
         const documents = await request('/documents')
+
         this.setState({ documents })
     }
 
@@ -92,13 +99,18 @@ function renderDocs(parentDoc, currentDoc, depth = 0) {
 
         const $deleteBtn = document.createElement('button')
         $deleteBtn.textContent = "delete"
-        $deleteBtn.classList.add('delete-post-btn')
+        $deleteBtn.classList.add('delete-btn')
+
+        const $addBtn = document.createElement('button')
+        $addBtn.textContent = "add"
+        $addBtn.classList.add('add-btn')
 
         const { id, title, documents: nextDoc } = doc
         $docElement.dataset.id = id
-        $docElement.textContent = title
+        $docElement.textContent = title ? title : "Untitled"
         parentDoc.appendChild($docElement)
         $docElement.appendChild($deleteBtn)
+        $docElement.appendChild($addBtn)
         renderDocs($docElement, nextDoc, depth + 1)
     })
 }

@@ -5,7 +5,9 @@ export const request = async (url, options = {}) => {
         const res = await fetch(`${API_END_POINT}${url}`, {
             ...options,
             headers: {
+                'Content-Type': 'application/json',
                 'x-username': 'hyosung'
+                //'x-username': 'roto'
             }
         })
 
@@ -25,11 +27,11 @@ export const fetchDocument = async (docId) => {
 export const postDocument = async (parentId) => {
     const doc = {
         title: 'new',
-        parent: parentId
+        parent: parentId == null ? null : +parentId
     }
     return request("/documents", {
         method: "POST",
-        body: JSON.stringify(doc),
+        body: JSON.stringify({ ...doc }),
     });
 }
 
