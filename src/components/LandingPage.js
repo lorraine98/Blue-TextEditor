@@ -4,7 +4,9 @@ export default function LandingPage({ $target }) {
         $target.innerHTML = `
             <div class="landingpage">
                 <h1>WELCOME!<h1>
+                <p>Click</p>
                 <button class="new-post-btn">new post</button>
+                <p>or</p>
                 <p>←Select document</p>
             </div>
         `;

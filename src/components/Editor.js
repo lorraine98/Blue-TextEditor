@@ -31,13 +31,11 @@ export default function Editor({ $target, onEditing, initialState = {
         if ($target.querySelector('.editor-container')) {
             return;
         }
-        const content = this.parseMarkdown(this.state.content)
-        console.log(content)
         $target.innerHTML = `
                 <div class="editor-container">
                     <div class="editor">
                     <input class="editor-title" name="title" placeholder="Heading.." value="${this.state.title}"/>
-                    <textarea class="editor-content" name="content">${content}</textarea>
+                    <textarea class="editor-content" name="content">${this.parseMarkdown(this.state.content)}</textarea>
                     </div>
                 </div>
                 `
