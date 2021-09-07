@@ -9,7 +9,7 @@ export default function LandingPage({ $target }) {
                 <p>or</p>
                 <p>←Select document</p>
             </div>
-        `;
+        `
 
     }
     this.render()

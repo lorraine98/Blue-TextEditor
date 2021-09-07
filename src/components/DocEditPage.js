@@ -1,5 +1,4 @@
 import Editor from "./Editor.js"
-import { updateDocument } from "../utils/api.js";
 
 export default function DocEditPage({ $target, initialState }) {
 
@@ -21,17 +20,12 @@ export default function DocEditPage({ $target, initialState }) {
         }
     }
 
-
     const editor = new Editor({
         $target,
         initialState: {
             title: '', content: ''
-        },
-        onEditing: (doc) => {
-            
         }
     })
-
 
     this.render = () => {
         editor.setState({})
